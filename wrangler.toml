@@ -1,4 +1,4 @@
-name = "my-static-site"
+name = "cardano-spo-preview"
 compatibility_date = "2025-11-29"
 
 [assets]
