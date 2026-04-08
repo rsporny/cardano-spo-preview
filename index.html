@@ -3,10 +3,389 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>RSPO</title>
+    <title>RSPO - Cardano Preview Testnet Stake Pool</title>
+    <meta name="description" content="RSPO - Cardano Preview Testnet Stake Pool Operator. Delegate your tADA to earn rewards with low fees and reliable performance." />
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg: #0d1117;
+            --surface: #161b22;
+            --border: #30363d;
+            --text: #e6edf3;
+            --text-muted: #8b949e;
+            --accent: #1ba3e0;
+            --accent-glow: rgba(27, 163, 224, 0.15);
+            --green: #3fb950;
+            --ada: #0033ad;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Hero */
+        .hero {
+            text-align: center;
+            padding: 80px 0 48px;
+        }
+
+        .ticker {
+            display: inline-block;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            color: var(--accent);
+            background: var(--accent-glow);
+            border: 1px solid rgba(27, 163, 224, 0.3);
+            padding: 6px 16px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            font-weight: 700;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, #fff 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 520px;
+            margin: 0 auto 32px;
+        }
+
+        .pool-id {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 12px;
+            color: var(--text-muted);
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 10px 16px;
+            border-radius: 8px;
+            display: inline-block;
+            word-break: break-all;
+            max-width: 100%;
+            margin-bottom: 32px;
+        }
+
+        .delegate-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 32px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            text-decoration: none;
+            font-family: inherit;
+            font-weight: 600;
+            font-size: 16px;
+            line-height: 1;
+            transition: transform 150ms, box-shadow 150ms;
+            box-shadow: 0 4px 24px rgba(27, 163, 224, 0.3);
+        }
+
+        .delegate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(27, 163, 224, 0.4);
+        }
+
+        .delegate-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Key Stats Row */
+        .key-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 16px;
+            margin-bottom: 48px;
+        }
+
+        .key-stat {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .key-stat .label {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .key-stat .value {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .key-stat .value.green { color: var(--green); }
+        .key-stat .value.accent { color: var(--accent); }
+
+        /* Sections */
+        .section {
+            margin-bottom: 48px;
+        }
+
+        .section h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .stat-item {
+            background: var(--surface);
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .stat-item .stat-label {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .stat-item .stat-value {
+            font-size: 14px;
+            font-weight: 600;
+            text-align: right;
+        }
+
+        /* Saturation Bar */
+        .saturation-bar {
+            margin-top: 24px;
+        }
+
+        .saturation-bar .bar-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .saturation-bar .bar-label span:first-child { color: var(--text-muted); }
+        .saturation-bar .bar-label span:last-child { color: var(--accent); font-weight: 600; }
+
+        .bar-track {
+            height: 8px;
+            background: var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+            width: 1.66%;
+            background: linear-gradient(90deg, var(--accent), #3fb950);
+            border-radius: 4px;
+            transition: width 1s ease;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 48px 0 32px;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+
+        footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        footer a:hover { text-decoration: underline; }
+
+        .footer-links {
+            display: flex;
+            gap: 24px;
+            justify-content: center;
+            margin-bottom: 16px;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .hero { padding: 48px 0 32px; }
+            .key-stats { grid-template-columns: repeat(2, 1fr); }
+            .stats-grid { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
 <body>
-    <h1>Hello, World! Welcome to RSPO.</h1>
+    <div class="container">
+
+        <!-- Hero -->
+        <section class="hero">
+            <div class="ticker">RSPO</div>
+            <h1>Cardano Stake Pool</h1>
+            <span style="display:inline-block;font-size:12px;font-weight:600;letter-spacing:1px;color:#f0883e;background:rgba(240,136,62,0.15);border:1px solid rgba(240,136,62,0.3);padding:4px 12px;border-radius:14px;margin-bottom:16px;text-transform:uppercase;">Preview Testnet</span>
+            <p>Reliable block production with 0% margin fee. Running on the Cardano Preview testnet since November 2025.</p>
+            <div class="pool-id">pool12hmgl07rh0jjzjzjfle77834csg99y7xvraju7neqea9287xl7m</div>
+            <br /><br />
+            <a href="https://preview.cexplorer.io/pool/pool12hmgl07rh0jjzjzjfle77834csg99y7xvraju7neqea9287xl7m?action=delegate" target="_blank" class="delegate-btn">
+                Delegate to [RSPO]
+            </a>
+        </section>
+
+        <!-- Key Stats -->
+        <div class="key-stats">
+            <div class="key-stat">
+                <div class="label">Live Stake</div>
+                <div class="value accent">1.22M</div>
+            </div>
+            <div class="key-stat">
+                <div class="label">Lifetime ROA</div>
+                <div class="value green">9.56%</div>
+            </div>
+            <div class="key-stat">
+                <div class="label">Blocks Produced</div>
+                <div class="value">567</div>
+            </div>
+            <div class="key-stat">
+                <div class="label">Margin Fee</div>
+                <div class="value green">0.00%</div>
+            </div>
+            <div class="key-stat">
+                <div class="label">Delegators</div>
+                <div class="value">4</div>
+            </div>
+            <div class="key-stat">
+                <div class="label">Lifetime Luck</div>
+                <div class="value">97.12%</div>
+            </div>
+        </div>
+
+        <!-- Saturation -->
+        <div class="section">
+            <div class="saturation-bar">
+                <div class="bar-label">
+                    <span>Pool Saturation</span>
+                    <span>1.66%</span>
+                </div>
+                <div class="bar-track">
+                    <div class="bar-fill"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stake & Pledge -->
+        <div class="section">
+            <h2>Stake & Pledge</h2>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-label">Live Stake</span>
+                    <span class="stat-value">&#8371; 1.22M</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Active Stake</span>
+                    <span class="stat-value">&#8371; 1.22M</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Declared Pledge</span>
+                    <span class="stat-value">&#8371; 5.00k</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Active Pledge</span>
+                    <span class="stat-value">&#8371; 50.62k</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Pledge Leverage</span>
+                    <span class="stat-value">244</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Margin Fee</span>
+                    <span class="stat-value">0.00%</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Fixed Fee</span>
+                    <span class="stat-value">&#8371; 170.00</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Created</span>
+                    <span class="stat-value">30.11.2025</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Performance -->
+        <div class="section">
+            <h2>Performance</h2>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-label">Recent ROA</span>
+                    <span class="stat-value">7.00%</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Lifetime ROA</span>
+                    <span class="stat-value">9.56%</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Blocks in Epoch</span>
+                    <span class="stat-value">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Estimated Blocks</span>
+                    <span class="stat-value">4.21</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Prorated Luck</span>
+                    <span class="stat-value">0.00%</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Blocks Lifetime</span>
+                    <span class="stat-value">567</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Lifetime Luck</span>
+                    <span class="stat-value">97.12%</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <div class="footer-links">
+                <a href="https://preview.cexplorer.io/pool/pool12hmgl07rh0jjzjzjfle77834csg99y7xvraju7neqea9287xl7m" target="_blank">cexplorer</a>
+            </div>
+            <p>&copy; 2025 RSPO Stake Pool</p>
+        </footer>
+
+    </div>
 </body>
 </html>
-
